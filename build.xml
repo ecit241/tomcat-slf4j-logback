@@ -11,18 +11,18 @@
 
 	<target name="dist" depends="dependencies">
 		<!-- slf4j-api -->
-		<antcall target="downloadfile">
+		<!--antcall target="downloadfile">
 			<param name="sourcefile" value="${slf4j-api.src.location}" />
 			<param name="destfile" value="${slf4j-api.src.jar}" />
 			<param name="destdir" value="${slf4j-api.home}" />
 		</antcall>
 		<delete dir="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources" />
-		<unjar src="${slf4j-api.src.jar}" dest="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources" />
-		<replace dir="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources" encoding="UTF-8">
+		<unjar src="${slf4j-api.src.jar}" dest="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources" /-->
+		<!--replace dir="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources" encoding="UTF-8">
 			<replacefilter token="org.slf4j" value="org.apache.juli.logging.org.slf4j" />
 			<replacefilter token="org/slf4j" value="org/apache/juli/logging/org/slf4j" />
-		</replace>
-		<mkdir dir="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources/org/apache/juli/logging/org/slf4j" />
+		</replace-->
+		<!--mkdir dir="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources/org/apache/juli/logging/org/slf4j" />
 		<move todir="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources/org/apache/juli/logging/org/slf4j">
 			<fileset dir="${slf4j-api.home}/slf4j-api-${slf4j.version}-sources/org/slf4j" />
 		</move>
@@ -41,7 +41,7 @@
 			<fileset dir="${slf4j-api.home}/tomcat-juli-slf4j-api-${slf4j.version}">
 				<exclude name="org/apache/juli/logging/org/slf4j/impl/*.class" />
 			</fileset>
-		</jar>
+		</jar-->
 
 		<!-- jcl-over-slf4j -->
 		<antcall target="downloadfile">
@@ -60,8 +60,8 @@
 			</patternset>
 		</unjar>
 		<replace dir="${jcl-over-slf4j.home}/jcl-over-slf4j-${slf4j.version}-sources" encoding="UTF-8">
-			<replacefilter token="org.slf4j" value="org.apache.juli.logging.org.slf4j" />
-			<replacefilter token="org/slf4j" value="org/apache/juli/logging/org/slf4j" />
+			<!--replacefilter token="org.slf4j" value="org.apache.juli.logging.org.slf4j" />
+			<replacefilter token="org/slf4j" value="org/apache/juli/logging/org/slf4j" /-->
 			<replacefilter token="org.apache.commons" value="org.apache.juli" />
 			<replacefilter token="org/apache/commons" value="org/apache/juli" />
 		</replace>
@@ -70,9 +70,12 @@
 			<fileset dir="${jcl-over-slf4j.home}/jcl-over-slf4j-${slf4j.version}-sources/org/apache/commons" />
 		</move>
 		<javac srcdir="${jcl-over-slf4j.home}/jcl-over-slf4j-${slf4j.version}-sources" destdir="${jcl-over-slf4j.home}/tomcat-juli-jcl-over-slf4j-${slf4j.version}"
-			source="1.5" target="1.5" nowarn="true" encoding="UTF-8" debug="on" includeAntRuntime="false">
+			source="1.7" target="1.7" nowarn="true" encoding="UTF-8" debug="on" includeAntRuntime="false">
 			<classpath>
-				<fileset dir="${dist.path}">
+				<!--fileset dir="${dist.path}">
+					<include name="*.jar" />
+				</fileset-->
+				<fileset dir="_lib/jar">
 					<include name="*.jar" />
 				</fileset>
 			</classpath>
@@ -87,12 +90,12 @@
 		<jar destfile="${dist.path}/tomcat-juli.jar">
 			<fileset dir="${jcl-over-slf4j.home}/tomcat-juli-jcl-over-slf4j-${slf4j.version}" />
 			<manifest>
-				<attribute name="Class-Path" value="tomcat-juli-slf4j-api-${slf4j.version}.jar tomcat-juli-logback-core-${logback.version}.jar tomcat-juli-logback-classic-${logback.version}.jar ../conf/logback" />
+        <attribute name="Class-Path" value="../lib/slf4j-api-${slf4j.version}.jar ../lib/logback-core-${logback.version}.jar ../lib/logback-classic-${logback.version}.jar ../lib/" />
 			</manifest>
 		</jar>
 
 		<!-- logback core -->
-		<antcall target="downloadfile">
+		<!--antcall target="downloadfile">
 			<param name="sourcefile" value="${logback-core.src.location}" />
 			<param name="destfile" value="${logback-core.src.jar}" />
 			<param name="destdir" value="${logback-core.home}" />
@@ -129,10 +132,10 @@
 		</copy>
 		<jar destfile="${dist.path}/tomcat-juli-logback-core-${logback.version}.jar">
 			<fileset dir="${logback-core.home}/tomcat-juli-logback-core-${logback.version}" />
-		</jar>
+		</jar-->
 
 		<!-- logback classic -->
-		<antcall target="downloadfile">
+		<!--antcall target="downloadfile">
 			<param name="sourcefile" value="${logback-classic.src.location}" />
 			<param name="destfile" value="${logback-classic.src.jar}" />
 			<param name="destdir" value="${logback-classic.home}" />
@@ -179,7 +182,7 @@
 		</copy>
 		<jar destfile="${dist.path}/tomcat-juli-logback-classic-${logback.version}.jar">
 			<fileset dir="${logback-classic.home}/tomcat-juli-logback-classic-${logback.version}" />
-		</jar>
+		</jar-->
 	</target>
 
 	<target name="dependencies">
